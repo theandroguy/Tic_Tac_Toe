@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_tic"
+    android:orientation="vertical"
+    tools:context=".NameActivity">
+
+<!--    <com.google.android.material.button.MaterialButton-->
+<!--        android:id="@+id/interchange"-->
+<!--        android:layout_width="110dp"-->
+<!--        android:layout_height="70dp"-->
+<!--        android:backgroundTint="#f8d320"-->
+<!--        android:fontFamily="sans-serif-condensed"-->
+<!--        android:text="@string/x_y"-->
+<!--        android:textColor="@color/black"-->
+<!--        android:textSize="25sp"-->
+<!--        android:textStyle="bold"-->
+<!--        app:cornerRadius="0dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.142"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintVertical_bias="0.768" />-->
+
+    <TextView
+        android:id="@+id/OSign"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="O"
+        android:textColor="#00FFFF"
+        android:textSize="60sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.116"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.579" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="92dp"
+        android:layout_marginTop="117dp"
+        android:layout_marginEnd="92dp"
+        android:layout_marginBottom="537dp"
+
+        android:fontFamily="sans-serif-condensed"
+        android:text="@string/tic_tac_toe"
+        android:textColor="@color/white"
+        android:textSize="50sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
+
+    </TextView>
+
+    <EditText
+        android:id="@+id/player1"
+        android:layout_width="250dp"
+        android:layout_height="70dp"
+        android:background="#f8d320"
+        android:ems="10"
+        android:fontFamily="sans-serif-condensed"
+        android:inputType="textCapSentences"
+        android:text="Player 1"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.701"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.4" />
+
+
+    <EditText
+        android:id="@+id/player2"
+        android:layout_width="250dp"
+        android:layout_height="70dp"
+        android:background="#f8d320"
+        android:ems="10"
+        android:fontFamily="sans-serif-condensed"
+        android:inputType="textCapSentences"
+        android:text="Player 2"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.701"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.57" />
+
+    <TextView
+        android:id="@+id/XSign"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="X"
+        android:textColor="#FF0000"
+        android:textSize="60sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.115"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.405" />
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/play"
+        android:layout_width="100dp"
+        android:layout_height="70dp"
+        android:backgroundTint="#3F51B5"
+        android:fontFamily="sans-serif-condensed"
+        android:text="PLay"
+        android:textColor="@color/white"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:cornerRadius="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.777" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
