@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.tushar.tictactoe">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <supports-screens
         android:anyDensity="true"
@@ -8,8 +9,7 @@
         android:normalScreens="true"
         android:resizeable="true"
         android:smallScreens="true"
-        android:xlargeScreens="true"/>
-
+        android:xlargeScreens="true" />
 
     <application
         android:allowBackup="true"
@@ -19,7 +19,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TicTacToe">
         <activity
+            android:name=".TicTacToeOnline"
+            android:exported="false" />
+        <activity
+            android:name=".OnlineNameActivity"
+            android:exported="false" />
+        <activity
             android:name=".NameActivity"
+            android:exported="true" />
+        <activity
+            android:name=".WinWIndow"
             android:exported="true" />
         <activity
             android:name=".MainActivity"
@@ -30,11 +39,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".TicTacToe"/>
-
-
-
+        <activity android:name=".TicTacToe" />
 
         <meta-data
             android:name="preloaded_fonts"

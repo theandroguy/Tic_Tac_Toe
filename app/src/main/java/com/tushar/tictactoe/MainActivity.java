@@ -20,8 +20,10 @@ public class MainActivity extends AppCompatActivity  {
             @Override
             public void onClick(View v) {
                 mp.start();
+                Toast.makeText(MainActivity.this, "Feature is Coming soon", Toast.LENGTH_SHORT).show();
 
-                Toast.makeText(MainActivity.this, "Play Online Feature is Coming soon", Toast.LENGTH_SHORT).show();
+//                Intent intent= new Intent(MainActivity.this , OnlineNameActivity.class);
+//                startActivity(intent);
 
             }
         });

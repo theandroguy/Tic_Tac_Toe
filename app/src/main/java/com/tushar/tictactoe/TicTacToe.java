@@ -16,103 +16,89 @@ import androidx.appcompat.app.AppCompatActivity;
 public class TicTacToe extends AppCompatActivity implements View.OnClickListener {
 
     private Button[][] buttons = new Button[3][3];
-
-
-    private boolean play1 = true;
+    private MediaPlayer mediaPlayer;
     private int count;
-    private int player1p;
-    private int player2p;
+    private int player1Score;
+    private int player2Score;
 
-    private TextView tv1;
-    private TextView tv2;
+    private TextView player1TextView;
+    private TextView player2TextView;
 
+    private static final String PLAYER_WINS_MESSAGE = "%s wins!";
+    private static final String DRAW_MESSAGE = "Match has been drawn";
 
-
-
-
-
+    private boolean isPlayer1Turn = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tic_tac_toe);
 
-        MediaPlayer mp = MediaPlayer.create(this, R.raw.ding);
-        tv1 = findViewById(R.id.player1);
-        tv2 = findViewById(R.id.player2);
-        tv1.setText(getIntent().getStringExtra("text"));
-        tv2.setText(getIntent().getStringExtra("text2"));
+        mediaPlayer = MediaPlayer.create(this, R.raw.ding);
+        player1TextView = findViewById(R.id.player1);
+        player2TextView = findViewById(R.id.player2);
+        player1TextView.setText(getIntent().getStringExtra("text"));
+        player2TextView.setText(getIntent().getStringExtra("text2"));
 
+        initializeButtons();
+
+        Button resetButton = findViewById(R.id.reset);
+        resetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resetGame();
+                showAlert("Game Restarted");
+            }
+        });
+    }
+
+    private void initializeButtons() {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                String btnid = "btn" + i + j;
-                int resid = getResources().getIdentifier(btnid, "id", getPackageName());
-                buttons[i][j] = findViewById(resid);
+                String buttonId = "btn" + i + j;
+                int resourceId = getResources().getIdentifier(buttonId, "id", getPackageName());
+                buttons[i][j] = findViewById(resourceId);
                 buttons[i][j].setOnClickListener(this);
             }
         }
-        Button reset = findViewById(R.id.reset);
-        reset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                resetgame();
-                mp.start();
-                //Toast.makeText(TicTacToe.this, "Game Restarted", Toast.LENGTH_SHORT).show();
-                AlertDialog alertDialog=new AlertDialog.Builder(TicTacToe.this).create();
-                alertDialog.setTitle("Tic Tac Toe");
-                alertDialog.setMessage("Game Restarted");
-                alertDialog.setCancelable(false);
-                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OKAY", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        mp.start();
-                        dialog.dismiss();
-                    }
-                });
-                alertDialog.show();
-
-            }
-        });
-
     }
-
-
 
     @Override
     public void onClick(View v) {
-        MediaPlayer m2 = MediaPlayer.create(this, R.raw.ding);
+        mediaPlayer.start();
 
-
-        if (!((Button) v).getText().toString().equals("")) {
-            return;
+        Button clickedButton = (Button) v;
+        if (!clickedButton.getText().toString().equals("")) {
+            return; // The button has already been clicked
         }
-        if (play1) {
-            m2.start();
 
-            ((Button) v).setTextColor(Color.RED);
-            ((Button) v).setText("X");
+        if (isPlayer1Turn) {
+            setButtonProperties(clickedButton, Color.RED, "X");
         } else {
-            m2.start();
-            ((Button) v).setTextColor(Color.CYAN);
-            ((Button) v).setText("O");
+            setButtonProperties(clickedButton, Color.CYAN, "O");
         }
+
         count++;
-        if (checkingwin()) {
-            if (play1) {
-                player1wins();
+
+        if (checkForWin()) {
+            if (isPlayer1Turn) {
+                playerWins(getIntent().getStringExtra("text"));
             } else {
-                player2wins();
+                playerWins(getIntent().getStringExtra("text2"));
             }
         } else if (count == 9) {
             draw();
         } else {
-            play1 = !play1;
+            isPlayer1Turn = !isPlayer1Turn;
         }
-
     }
 
-    private boolean checkingwin() {
+    private void setButtonProperties(Button button, int textColor, String symbol) {
+        button.setTextColor(textColor);
+        button.setText(symbol);
+    }
+
+    private boolean checkForWin() {
         String[][] field = new String[3][3];
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -141,100 +127,68 @@ public class TicTacToe extends AppCompatActivity implements View.OnClickListener
         return false;
     }
 
-    private void player1wins() {
-        player1p++;
-       // Toast.makeText(this, "Player 1 wins!!", Toast.LENGTH_SHORT).show();
-        updatepoints();
-        reset1();
-    }
-
-    private void player2wins() {
-        player2p++;
-       // Toast.makeText(this, "Player 2 wins!!", Toast.LENGTH_SHORT).show();
-        updatepoints();
-        reset1();
+    private void playerWins(String player) {
+        if (player.equals(getIntent().getStringExtra("text"))) {
+            player1Score++;
+        } else {
+            player2Score++;
+        }
+        updateScores();
+        showAlert(String.format(PLAYER_WINS_MESSAGE, player));
+        resetBoard();
     }
 
     private void draw() {
-     Toast.makeText(this, "Match Has been Drawn", Toast.LENGTH_SHORT).show();
-        reset1();
+        Toast.makeText(this, DRAW_MESSAGE, Toast.LENGTH_SHORT).show();
+        resetBoard();
     }
 
-    private void updatepoints() {
-        tv1.setText(getIntent().getStringExtra("text")+" : "+ player1p);
-        tv2.setText(getIntent().getStringExtra("text2")+" : "+ player2p);
+    private void updateScores() {
+        player1TextView.setText(getIntent().getStringExtra("text") + " : " + player1Score);
+        player2TextView.setText(getIntent().getStringExtra("text2") + " : " + player2Score);
     }
 
-    private void reset1() {
+    private void resetBoard() {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 buttons[i][j].setText("");
             }
         }
-        MediaPlayer m3 = MediaPlayer.create(this, R.raw.ding);
         count = 0;
-        play1 = true;
-        if (player1p>player2p)
-        {
+        isPlayer1Turn = true;
+    }
 
-            AlertDialog alertDialog=new AlertDialog.Builder(TicTacToe.this).create();
-            alertDialog.setTitle("Tic Tac Toe");
-            alertDialog.setMessage(getIntent().getStringExtra("text")+" is the winner ");
-            alertDialog.setCancelable(false);
-            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "RESET GAME", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    m3.start();
-                    resetgame();
-                    dialog.dismiss();
-                }
-            });
-            alertDialog.show();
-        }
-        else if (player2p>player1p)
-        {
-            {
-                AlertDialog alertDialog=new AlertDialog.Builder(TicTacToe.this).create();
-                alertDialog.setTitle("Tic Tac Toe");
-                alertDialog.setMessage(getIntent().getStringExtra("text2")+" is the winner ");
-                alertDialog.setCancelable(false);
-                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "RESET GAME", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        m3.start();
-                        resetgame();
-                        dialog.dismiss();
-                    }
-                });
-                alertDialog.show();
+    private void resetGame() {
+        player1Score = 0;
+        player2Score = 0;
+        updateScores();
+        resetBoard();
+    }
+
+    private void showAlert(String message) {
+        AlertDialog alertDialog = new AlertDialog.Builder(TicTacToe.this).create();
+        alertDialog.setTitle("Tic Tac Toe");
+        alertDialog.setMessage(message);
+        alertDialog.setCancelable(false);
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OKAY", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                mediaPlayer.start();
+                dialog.dismiss();
             }
-        }
-
-        }
-
-    public void resetgame() {
-        player1p = 0;
-        player2p = 0;
-        updatepoints();
-        reset1();
+        });
+        alertDialog.show();
     }
 
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-
-        outState.putInt("count", count);
-        outState.putInt("player1p", player1p);
-        outState.putInt("player2p", player2p);
-        outState.putBoolean("play1", play1);
+        // Save necessary state variables if needed
     }
 
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        count = savedInstanceState.getInt("count");
-        player1p = savedInstanceState.getInt("player1p");
-        player2p = savedInstanceState.getInt("player2p");
-        play1 = savedInstanceState.getBoolean("play1");
+        // Restore saved state variables if needed
     }
 }
